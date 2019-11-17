@@ -4,7 +4,7 @@ import sys
 
 def running(image):
     imageheight = len(image)
-    for i in range(40):
+    for i in range(100):
         for j in range(imageheight - 1):
             print('\r', i * ' ', image[j], (100 - i) * ' ', end='', flush=False)
         print('\r', i * ' ', image[-1], (100 - i) * ' ', end=((imageheight) * '\033[F'), flush=False)
