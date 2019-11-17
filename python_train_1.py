@@ -1,18 +1,27 @@
 import time
+import sys
 
-def running(trainimage):
-    for i in range(100):
-        #print('\r', i * ' ', 'TRAIN', (100 - i) * ' ', end='\n', flush=False)
-        #print('\r', i * ' ', 'TRAIN 2', (100 - i) * ' ', end='\n', flush=False)
-        #print('\r', i * ' ', 'newline', (100 - i) * ' ', end=2 * '\033[F', flush=False)
-        print('\r', i * ' ', trainimage.split('\n', 2)[0], (100 - i) * ' ', end='\n', flush=False)
-        print('\r', i * ' ', trainimage.split('\n', 2)[1], (100 - i) * ' ', end='\n', flush=False)
-        print('\r', i * ' ', trainimage.split('\n', 2)[2], (100 - i) * ' ', end=2 * '\033[F', flush=False)
+
+def running(image):
+    imageheight = len(image)
+    for i in range(40):
+        for j in range(imageheight - 1):
+            print('\r', i * ' ', image[j], (100 - i) * ' ', end='', flush=False)
+        print('\r', i * ' ', image[-1], (100 - i) * ' ', end=((imageheight) * '\033[F'), flush=False)
         time.sleep(0.1)
 
 
-trainimage = '  ____  ____  ____  ____  ____\n /   |-|   |-|   |-|   |-|    \ \n  <____  ____  ____  ____  ____>'
+with open('vehicles') as f:
+    image_in = f.readlines()
 
-running(trainimage)
+vehicle_type = 'train\n'
 
-#print(trainimage.split('\n', 2))
+if len(sys.argv) > 1:
+    vehicle_type = str(sys.argv[1]) + '\n'
+
+start_vehicle = image_in.index(vehicle_type)
+end_vehicle = image_in[start_vehicle:].index(50 * '#' + '\n')
+
+image_out = image_in[(start_vehicle + 1):(start_vehicle + end_vehicle)]
+
+running(image_out)
